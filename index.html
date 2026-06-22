@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parallax Worlds — Created by Ayushi Shukla</title>
+<style>
+  :root{
+    --bg-dark:#0a0e1a;
+    --accent1:#7f5af0;
+    --accent2:#2cb1bc;
+    --accent3:#ff6b6b;
+    --text-light:#f4f4f4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Segoe UI', system-ui, sans-serif;
+    background:var(--bg-dark);
+    color:var(--text-light);
+    overflow-x:hidden;
+  }
+
+  /* ---- Nav ---- */
+  nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    backdrop-filter:blur(10px);
+    background:rgba(10,14,26,0.3);
+  }
+  nav .logo{font-weight:700;font-size:1.3rem;letter-spacing:1px;}
+  nav .logo span{color:var(--accent1);}
+  nav .credit{font-size:0.8rem;opacity:0.7;}
+
+  /* ---- Section base ---- */
+  section{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  /* ---- HERO ---- */
+  #hero{
+    background:radial-gradient(circle at 50% 30%, #1a1f33, #0a0e1a 70%);
+  }
+  .hero-layer{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;left:0;
+    will-change:transform;
+  }
+  #stars{
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, white, transparent),
+      radial-gradient(2px 2px at 140px 80px, white, transparent),
+      radial-gradient(1.5px 1.5px at 250px 150px, white, transparent),
+      radial-gradient(1.5px 1.5px at 60px 200px, white, transparent),
+      radial-gradient(2px 2px at 320px 60px, white, transparent),
+      radial-gradient(1.5px 1.5px at 400px 250px, white, transparent),
+      radial-gradient(2px 2px at 480px 120px, white, transparent),
+      radial-gradient(1.5px 1.5px at 550px 300px, white, transparent);
+    background-size:600px 400px;
+    background-repeat:repeat;
+    opacity:0.8;
+  }
+  .mountain{
+    position:absolute;
+    bottom:0;left:0;width:100%;
+    height:55%;
+  }
+  .mountain svg{width:100%;height:100%;display:block;}
+  .hero-content{
+    position:relative;
+    z-index:5;
+    text-align:center;
+    padding:0 20px;
+  }
+  .hero-content h1{
+    font-size:4.2rem;
+    font-weight:800;
+    letter-spacing:2px;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero-content p{
+    margin-top:20px;
+    font-size:1.2rem;
+    opacity:0.85;
+    max-width:600px;
+    margin-left:auto;margin-right:auto;
+  }
+  .scroll-hint{
+    position:absolute;
+    bottom:40px;left:50%;
+    transform:translateX(-50%);
+    font-size:0.85rem;
+    opacity:0.6;
+    animation:bounce 2s infinite;
+    z-index:5;
+  }
+  @keyframes bounce{
+    0%,100%{transform:translate(-50%,0);}
+    50%{transform:translate(-50%,10px);}
+  }
+
+  /* ---- FOREST SECTION ---- */
+  #forest{
+    background:linear-gradient(to bottom,#0d1b1e,#16302b);
+  }
+  .forest-layer{
+    position:absolute;
+    bottom:0;left:0;width:100%;
+    will-change:transform;
+  }
+  .forest-layer svg{width:100%;display:block;}
+  .forest-content{
+    position:relative;z-index:5;
+    text-align:center;
+    background:rgba(10,20,18,0.45);
+    padding:40px 50px;
+    border-radius:20px;
+    backdrop-filter:blur(6px);
+    max-width:600px;
+    margin:0 20px;
+  }
+  .forest-content h2{font-size:2.6rem;margin-bottom:15px;color:var(--accent2);}
+  .forest-content p{opacity:0.85;line-height:1.6;}
+
+  /* ---- OCEAN SECTION ---- */
+  #ocean{
+    background:linear-gradient(to bottom,#021e2e,#02334d);
+  }
+  .wave-layer{
+    position:absolute;
+    bottom:0;left:0;width:200%;
+    will-change:transform;
+  }
+  .wave-layer svg{width:100%;display:block;}
+  .ocean-content{
+    position:relative;z-index:5;
+    text-align:center;
+    color:#dff6ff;
+  }
+  .ocean-content h2{font-size:2.6rem;margin-bottom:15px;}
+  .ocean-content p{max-width:550px;margin:0 auto;opacity:0.85;line-height:1.6;}
+  .bubble{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    will-change:transform;
+  }
+
+  /* ---- DESERT / SUNSET SECTION ---- */
+  #desert{
+    background:linear-gradient(to bottom,#3d1f2b,#1a0e1a);
+  }
+  .sun{
+    position:absolute;
+    top:15%;left:50%;
+    transform:translateX(-50%);
+    width:200px;height:200px;
+    border-radius:50%;
+    background:radial-gradient(circle,#ffd56b,#ff6b6b 70%);
+    box-shadow:0 0 100px 40px rgba(255,150,90,0.5);
+    will-change:transform;
+  }
+  .dune{
+    position:absolute;
+    bottom:0;left:0;width:100%;
+    will-change:transform;
+  }
+  .dune svg{width:100%;display:block;}
+  .desert-content{
+    position:relative;z-index:5;
+    text-align:center;
+    color:#ffe9d6;
+  }
+  .desert-content h2{font-size:2.6rem;margin-bottom:15px;}
+  .desert-content p{max-width:550px;margin:0 auto;opacity:0.85;line-height:1.6;}
+
+  /* ---- FINAL / CTA SECTION ---- */
+  #finale{
+    background:radial-gradient(circle at 50% 50%,#221a3d,#0a0e1a 75%);
+    flex-direction:column;
+    text-align:center;
+  }
+  #finale h2{
+    font-size:3rem;
+    margin-bottom:20px;
+    background:linear-gradient(90deg,var(--accent3),var(--accent1));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  #finale p{opacity:0.8;max-width:500px;margin-bottom:30px;}
+  .btn{
+    padding:14px 36px;
+    border-radius:30px;
+    border:none;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(127,90,240,0.4);
+  }
+  footer{
+    text-align:center;
+    padding:30px;
+    font-size:0.85rem;
+    opacity:0.6;
+  }
+
+  @media(max-width:700px){
+    .hero-content h1{font-size:2.4rem;}
+    .forest-content,.ocean-content,.desert-content{padding:25px;}
+    .forest-content h2,.ocean-content h2,.desert-content h2{font-size:1.8rem;}
+    nav{padding:15px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Parallax<span>Worlds</span></div>
+  <div class="credit">Created by Ayushi Shukla</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-layer" id="stars" data-speed="0.1"></div>
+  <div class="hero-layer mountain" data-speed="0.25">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <polygon points="0,400 0,250 200,100 400,300 600,80 800,280 1000,150 1200,300 1200,400" fill="#1a1f3a"/>
+    </svg>
+  </div>
+  <div class="hero-layer mountain" data-speed="0.45" style="bottom:-20px;">
+    <svg viewBox="0 0 1200 350" preserveAspectRatio="none">
+      <polygon points="0,350 0,200 150,80 350,250 550,60 750,230 950,100 1200,260 1200,350" fill="#262c4f"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <h1>BEYOND THE SCROLL</h1>
+    <p>An immersive journey through layered worlds — scroll down and watch every layer move at its own pace.</p>
+  </div>
+  <div class="scroll-hint">↓ scroll to explore ↓</div>
+</section>
+
+<!-- FOREST -->
+<section id="forest">
+  <div class="forest-layer" data-speed="0.1" style="z-index:1;">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <rect width="1200" height="300" fill="#0d2422"/>
+    </svg>
+  </div>
+  <div class="forest-layer" data-speed="0.2" style="z-index:2;">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <polygon points="0,300 0,150 60,80 120,150 120,300" fill="#16302b"/>
+      <polygon points="150,300 150,120 220,40 290,120 290,300" fill="#16302b"/>
+      <polygon points="320,300 320,160 380,90 440,160 440,300" fill="#16302b"/>
+      <polygon points="600,300 600,130 670,50 740,130 740,300" fill="#16302b"/>
+      <polygon points="800,300 800,170 850,100 900,170 900,300" fill="#16302b"/>
+      <polygon points="980,300 980,140 1050,60 1120,140 1120,300" fill="#16302b"/>
+    </svg>
+  </div>
+  <div class="forest-layer" data-speed="0.35" style="z-index:3;">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <polygon points="40,300 40,180 100,100 160,180 160,300" fill="#1f3f37"/>
+      <polygon points="250,300 250,150 320,60 390,150 390,300" fill="#1f3f37"/>
+      <polygon points="500,300 500,190 550,120 600,190 600,300" fill="#1f3f37"/>
+      <polygon points="700,300 700,160 760,80 820,160 820,300" fill="#1f3f37"/>
+      <polygon points="900,300 900,200 950,130 1000,200 1000,300" fill="#1f3f37"/>
+      <polygon points="1080,300 1080,170 1140,90 1200,170 1200,300" fill="#1f3f37"/>
+    </svg>
+  </div>
+  <div class="forest-content">
+    <h2>The Whispering Forest</h2>
+    <p>Three layers of trees drift past at different speeds, creating real depth as you scroll — the closest trees rush by while the back ones barely move.</p>
+  </div>
+</section>
+
+<!-- OCEAN -->
+<section id="ocean">
+  <div class="bubble" data-speed="0.3" style="width:30px;height:30px;top:20%;left:15%;"></div>
+  <div class="bubble" data-speed="0.5" style="width:18px;height:18px;top:50%;left:75%;"></div>
+  <div class="bubble" data-speed="0.4" style="width:24px;height:24px;top:70%;left:35%;"></div>
+  <div class="bubble" data-speed="0.6" style="width:14px;height:14px;top:30%;left:60%;"></div>
+  <div class="wave-layer" data-speed="-0.15" style="z-index:1;">
+    <svg viewBox="0 0 2400 200" preserveAspectRatio="none">
+      <path d="M0,100 C200,150 400,50 600,100 C800,150 1000,50 1200,100 C1400,150 1600,50 1800,100 C2000,150 2200,50 2400,100 L2400,200 L0,200 Z" fill="#02466b" opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="wave-layer" data-speed="-0.3" style="z-index:2;">
+    <svg viewBox="0 0 2400 180" preserveAspectRatio="none">
+      <path d="M0,90 C200,40 400,140 600,90 C800,40 1000,140 1200,90 C1400,40 1600,140 1800,90 C2000,40 2200,140 2400,90 L2400,180 L0,180 Z" fill="#035d8a" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="wave-layer" data-speed="-0.5" style="z-index:3;">
+    <svg viewBox="0 0 2400 150" preserveAspectRatio="none">
+      <path d="M0,70 C150,110 350,30 550,70 C750,110 950,30 1150,70 C1350,110 1550,30 1750,70 C1950,110 2150,30 2400,70 L2400,150 L0,150 Z" fill="#0488c2" opacity="0.85"/>
+    </svg>
+  </div>
+  <div class="ocean-content">
+    <h2>Tides of Depth</h2>
+    <p>Bubbles float upward while wave layers slide horizontally at different speeds — a different kind of parallax to keep the scroll fun.</p>
+  </div>
+</section>
+
+<!-- DESERT -->
+<section id="desert">
+  <div class="sun" data-speed="0.2"></div>
+  <div class="dune" data-speed="0.15" style="z-index:1;">
+    <svg viewBox="0 0 1200 250" preserveAspectRatio="none">
+      <path d="M0,250 L0,150 Q300,80 600,140 Q900,200 1200,120 L1200,250 Z" fill="#5a2a3a"/>
+    </svg>
+  </div>
+  <div class="dune" data-speed="0.3" style="z-index:2;">
+    <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
+      <path d="M0,200 L0,120 Q300,180 600,100 Q900,40 1200,140 L1200,200 Z" fill="#3d1a28"/>
+    </svg>
+  </div>
+  <div class="desert-content">
+    <h2>The Last Horizon</h2>
+    <p>A glowing sun drifts slower than the dunes beneath it, giving the illusion of vast, open desert distance.</p>
+  </div>
+</section>
+
+<!-- FINALE -->
+<section id="finale">
+  <h2>Keep Exploring</h2>
+  <p>This entire experience was built with pure HTML, CSS and a touch of JavaScript — no heavy libraries needed for great parallax.</p>
+  <button class="btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
+</section>
+
+<footer>© 2026 Parallax Worlds — Created by Ayushi Shukla</footer>
+
+<script>
+  const layers = document.querySelectorAll('[data-speed]');
+
+  function updateParallax(){
+    const scrollY = window.scrollY;
+    layers.forEach(layer => {
+      const speed = parseFloat(layer.getAttribute('data-speed'));
+      const yPos = -(scrollY * speed);
+      layer.style.transform = `translateY(${yPos}px)`;
+    });
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if(!ticking){
+      window.requestAnimationFrame(() => {
+        updateParallax();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  updateParallax();
+</script>
+
+</body>
+</html>
